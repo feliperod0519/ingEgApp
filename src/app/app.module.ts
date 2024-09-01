@@ -21,6 +21,10 @@ import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { environment } from '../environments/environment.development';
 import { FirestoreModule } from '@angular/fire/firestore';
 
+import { StoreModule } from '@ngrx/store';
+import { appReducers } from './app.reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,13 +42,18 @@ import { FirestoreModule } from '@angular/fire/firestore';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FirestoreModule
+    FirestoreModule,
+    StoreModule.forRoot(appReducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
   ],
   providers: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideDatabase(() => getDatabase())
+    provideDatabase(() => getDatabase()),
   ],
   bootstrap: [AppComponent]
 })
