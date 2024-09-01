@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy{
     this.authService.loginUser({ email, password}).pipe(
       map(credenciales => { 
                             this.lastError = '';
+                            console.log('credenciales',credenciales?.user?.email);
                             return credenciales?.user?.email 
                           }),
       catchError(err => { 
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy{
                           return err; 
                         })
     ).subscribe(email => {
-                            console.log(email);
+                            console.log('hello', email);
                             this.router.navigate(['/']);
                             Swal.close();
                           } , 
